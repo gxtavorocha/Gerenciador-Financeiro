@@ -115,7 +115,7 @@ export default function App() {
   // ── Conta Corrente ──
   const corrente = filtered.filter(t => (t.account||"corrente") === "corrente");
   const incomeCorrente  = corrente.filter(t=>t.type==="income" &&t.received!==false).reduce((s,t)=>s+t.value,0);
-  const expenseCorrente = corrente.filter(t=>t.type==="expense"&&t.category!=="investimento").reduce((s,t)=>s+t.value,0);
+ const expenseCorrente = corrente.filter(t=>t.type==="expense").reduce((s,t)=>s+t.value,0);
   const balanceCorrente = incomeCorrente - expenseCorrente;
 
   // ── Poupança ──
@@ -130,7 +130,7 @@ export default function App() {
   // ── Totais gerais ──
   const totalIncome   = filtered.filter(t=>t.type==="income" &&t.received!==false).reduce((s,t)=>s+t.value,0);
   const totalPending  = filtered.filter(t=>t.type==="income" &&t.received===false).reduce((s,t)=>s+t.value,0);
-  const totalExpense  = filtered.filter(t=>t.type==="expense"&&t.category!=="investimento").reduce((s,t)=>s+t.value,0);
+  const totalExpense = filtered.filter(t=>t.type==="expense").reduce((s,t)=>s+t.value,0);
   const balance = totalIncome - totalExpense;
   const savePct       = totalIncome>0 ? Math.max(0,Math.min(100,(balance/totalIncome)*100)) : 0;
 
