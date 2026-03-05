@@ -131,7 +131,7 @@ export default function App() {
   const totalIncome   = filtered.filter(t=>t.type==="income" &&t.received!==false).reduce((s,t)=>s+t.value,0);
   const totalPending  = filtered.filter(t=>t.type==="income" &&t.received===false).reduce((s,t)=>s+t.value,0);
   const totalExpense  = filtered.filter(t=>t.type==="expense"&&t.category!=="investimento").reduce((s,t)=>s+t.value,0);
-  const balance       = totalIncome - totalExpense - totalInvestido;
+  const balance = totalIncome - totalExpense;
   const savePct       = totalIncome>0 ? Math.max(0,Math.min(100,(balance/totalIncome)*100)) : 0;
 
   const byCategory = categories.map(cat=>{
@@ -457,7 +457,7 @@ export default function App() {
               <span className="stat-icon">◈</span>
               <div className="stat-label">Saldo Geral</div>
               <div className="stat-value" style={{color:balance>=0?"var(--gold)":"var(--red)",fontSize:24}}>{fmt(balance)}</div>
-              <div className="stat-sub">poupança atual</div>
+              <div className="stat-sub">saldo em conta</div>
             </div>
           </div>
 
