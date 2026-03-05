@@ -11,7 +11,7 @@ const DEFAULT_CATEGORIES = [
 ];
 
 const PRESET_COLORS = ["#E8B86D","#6DBFE8","#8BE86D","#E86DB8","#A86DE8","#6DE8C8","#E8986D","#E86D6D","#6D8BE8","#E8D96D","#6DE87A","#E86D9A"];
-const PRESET_ICONS  = ["🏠","🍽️","🚗","💊","🎭","📚","✦","💰","🎮","✈️","👗","🐾","🏋️","🎵","📱","🛒","💡","🏦","🎁","🍺","🏥","🧾"];
+const PRESET_ICONS  = ["🏠","🍽️","🚗","💊","🎭","📚","✦","💰","🎮","✈️","👗","🐾","🏋️","🎵","📱","🛒","💡","🏦","🎁","🍺","🏥","🧾","✂"];
 const MONTHS = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 const fmt  = (v) => new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
 const fmtp = (v) => `${v.toFixed(1)}%`;
