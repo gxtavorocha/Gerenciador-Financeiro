@@ -363,7 +363,7 @@ export default function App() {
           <div className="page-sub">{MONTHS[month]} {year} · {filtered.length} transações</div>
           <div className="cards-grid">
             <div className="stat-card">
-              <span className="stat-icon">↑</span>
+              <span className="stat-icon">💲</span>
               <div className="stat-label">Receitas</div>
               <div className="stat-value" style={{color:"var(--green)"}}>{fmt(totalIncome)}</div>
               <div className="stat-sub">{filtered.filter(t=>t.type==="income"&&t.received!==false).length} confirmadas</div>
@@ -375,7 +375,7 @@ export default function App() {
               <div className="stat-sub">{filtered.filter(t=>t.type==="income"&&t.received===false).length} pendentes</div>
             </div>
             <div className="stat-card">
-              <span className="stat-icon">↓</span>
+              <span className="stat-icon">🧾</span>
               <div className="stat-label">Despesas</div>
               <div className="stat-value" style={{color:"var(--red)"}}>{fmt(totalExpense)}</div>
               <div className="stat-sub">{totalIncome>0?fmtp((totalExpense/totalIncome)*100):"—"} da renda</div>
