@@ -21,8 +21,32 @@ const LS_CAT = "orcamento_categories";
 const LS_ID  = "orcamento_nextId";
 
 const loadTx  = () => { try { const v = localStorage.getItem(LS_TX);  return v ? JSON.parse(v) : []; } catch { return []; } };
-const loadCat = () => { try { const v = localStorage.getItem(LS_CAT); return v ? JSON.parse(v) : DEFAULT_CATEGORIES; } catch { return DEFAULT_CATEGORIES; } };
 const loadId  = () => { try { const v = localStorage.getItem(LS_ID);  return v ? parseInt(v) : 1; } catch { return 1; } };
+
+const loadCat = () => {
+  try {
+    const v = localStorage.getItem(LS_CAT);
+    if (!v) return DEFAULT_CATEGORIES;
+    const parsed = JSON.parse(v);
+    if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_CATEGORIES;
+    const defaultIds = DEFAULT_CATEGORIES.map(c => c.id);
+    const hasAllDefaults = defaultIds.every(id => parsed.some(c => c.id === id));
+    if (!hasAllDefaults) {
+      const customOnly = parsed.filter(c => c.custom === true);
+      return [...DEFAULT_CATEGORIES, ...customOnly];
+    }
+    return parsed;
+  } catch { return DEFAULT_CATEGORIES; }
+};
+
+const calcNextCatId = () => {
+  const cats = loadCat();
+  const customIds = cats
+    .filter(c => c.id && String(c.id).startsWith("c_"))
+    .map(c => parseInt(String(c.id).replace("c_", "")))
+    .filter(n => !isNaN(n));
+  return customIds.length > 0 ? Math.max(...customIds) + 1 : 200;
+};
 
 // 50/30/20 rule + custom
 const SAVINGS_MODELS = [
@@ -78,15 +102,7 @@ export default function App() {
   const [year,  setYear]  = useState(new Date().getFullYear());
   const [toast, setToast] = useState(null);
   const nextId    = useRef(loadId());
-  const nextCatId = useRef(() => {
-  const cats = loadCat();
-  const customIds = cats
-    .filter(c => c.id.startsWith("c_"))
-    .map(c => parseInt(c.id.replace("c_", "")))
-    .filter(n => !isNaN(n));
-  return customIds.length > 0 ? Math.max(...customIds) + 1 : 200;
-});
-
+ const nextCatId = useRef(calcNextCatId());
   useEffect(()=>{ try{localStorage.setItem(LS_TX, JSON.stringify(transactions));}catch{} },[transactions]);
   useEffect(()=>{ try{localStorage.setItem(LS_CAT,JSON.stringify(categories));}catch{} },[categories]);
   useEffect(()=>{ try{localStorage.setItem(LS_ID, String(nextId.current));}catch{} });
