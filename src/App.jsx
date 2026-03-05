@@ -78,7 +78,14 @@ export default function App() {
   const [year,  setYear]  = useState(new Date().getFullYear());
   const [toast, setToast] = useState(null);
   const nextId    = useRef(loadId());
-  const nextCatId = useRef(200);
+  const nextCatId = useRef(() => {
+  const cats = loadCat();
+  const customIds = cats
+    .filter(c => c.id.startsWith("c_"))
+    .map(c => parseInt(c.id.replace("c_", "")))
+    .filter(n => !isNaN(n));
+  return customIds.length > 0 ? Math.max(...customIds) + 1 : 200;
+});
 
   useEffect(()=>{ try{localStorage.setItem(LS_TX, JSON.stringify(transactions));}catch{} },[transactions]);
   useEffect(()=>{ try{localStorage.setItem(LS_CAT,JSON.stringify(categories));}catch{} },[categories]);
